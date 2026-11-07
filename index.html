@@ -9,538 +9,423 @@
   <!-- Favicon (pestaña del navegador): guarda un ícono cuadrado en assets/logo/favicon.png -->
   <link rel="icon" type="image/png" href="assets/logo/favicon.png" />
 
-  <!-- Tailwind CSS vía CDN (solo para el prototipo visual; requiere conexión a internet para abrirlo) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Fraunces (serif editorial) + Inter (sans limpia) -->
+  <!-- Tipografías: Fraunces (serif editorial) + Inter (sans limpia) -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
 
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            bosque:   '#1B3A2B',
-            selva:    '#2E6B4F',
-            musgo:    '#8FAE8B',
-            marfil:   '#F5F1E6',
-            crema:    '#FCFBF7',
-            arena:    '#C9B79C',
-            dorado:   '#C98A2B',
-          },
-          fontFamily: {
-            serif: ['Fraunces', 'Georgia', 'serif'],
-            sans:  ['Inter', 'system-ui', 'sans-serif'],
-          },
-        },
-      },
-    };
-  </script>
-
-  <style>
-    html { scroll-behavior: smooth; }
-    body { font-family: 'Inter', system-ui, sans-serif; background-color: #FCFBF7; }
-    h1,h2,h3,.font-serif { font-family: 'Fraunces', Georgia, serif; }
-
-    /* Animaciones sutiles al hacer scroll */
-    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .8s ease, transform .8s ease; }
-    .reveal.is-visible { opacity: 1; transform: translateY(0); }
-    @media (prefers-reduced-motion: reduce) {
-      .reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
-      html { scroll-behavior: auto; }
-    }
-
-    /* Hero: gradiente de selva como marcador mientras no haya foto/video real */
-    .hero-bg {
-      background:
-        linear-gradient(180deg, rgba(27,58,43,.35) 0%, rgba(27,58,43,.55) 55%, rgba(27,58,43,.85) 100%),
-        radial-gradient(1200px 600px at 70% 10%, #2E6B4F 0%, #1B3A2B 60%, #12271D 100%);
-    }
-    .nav-link { position: relative; }
-    .nav-link::after {
-      content:''; position:absolute; left:0; bottom:-4px; height:2px; width:0;
-      background:#C98A2B; transition:width .3s ease;
-    }
-    .nav-link:hover::after { width:100%; }
-    .card-hover { transition: transform .4s ease, box-shadow .4s ease; }
-    .card-hover:hover { transform: translateY(-6px); box-shadow: 0 20px 40px -20px rgba(27,58,43,.4); }
-  </style>
+  <!-- Estilos propios y autónomos (no dependen de CDNs de estilos) -->
+  <link rel="stylesheet" href="styles.css" />
 </head>
 
-<body class="text-bosque antialiased">
+<body>
 
   <!-- ============ HEADER ============ -->
-  <header class="fixed top-0 inset-x-0 z-50 transition-all duration-300" id="header">
-    <div class="mx-auto max-w-7xl px-5 lg:px-8">
-      <nav class="flex items-center justify-between h-20">
-        <!-- Logo -->
-        <!-- ================= ESPACIO LOGO OFICIAL (HEADER) =================
-             PASO 1: Guarda el logo oficial en:  assets/logo/selva-futuro.png
-                     (recomendado: PNG o SVG con FONDO TRANSPARENTE, símbolo + texto)
-             El <img> de abajo lo mostrará automáticamente. Si el archivo aún no
-             existe, se muestra el símbolo marcador (SVG) como respaldo.
-        ================================================================== -->
-        <a href="#inicio" class="flex items-center gap-3 group">
-          <span class="inline-flex h-11 w-11 items-center justify-center rounded-full bg-selva/10 ring-1 ring-selva/20 overflow-hidden" id="logo-slot">
-            <!-- Logo oficial (se oculta solo si la imagen no carga) -->
+  <header class="header" id="header">
+    <div class="container">
+      <nav class="nav">
+        <!-- ===== ESPACIO LOGO OFICIAL (HEADER) =====
+             Guarda el logo en: assets/logo/selva-futuro.png (PNG/SVG, fondo transparente).
+             Si no existe, se muestra el símbolo marcador como respaldo. -->
+        <a href="#inicio" class="brand">
+          <span class="brand-mark">
             <img src="assets/logo/selva-futuro.png" alt="Logo Corporación Selva Futuro"
-                 class="h-11 w-11 object-contain"
                  onerror="this.style.display='none'; document.getElementById('logo-fallback').style.display='block';" />
-            <!-- Respaldo: símbolo marcador (flecha de crecimiento + hoja) -->
-            <svg id="logo-fallback" viewBox="0 0 24 24" class="h-6 w-6 text-selva" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M3 17c4-1 6-5 9-9s6-4 9-4" />
-              <path d="M16 4h5v5" />
-              <path d="M8 14c2 0 3-1 4-3" />
+            <svg id="logo-fallback" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 17c4-1 6-5 9-9s6-4 9-4" /><path d="M16 4h5v5" /><path d="M8 14c2 0 3-1 4-3" />
             </svg>
           </span>
-          <span class="leading-tight">
-            <span class="block font-serif text-lg tracking-wide text-bosque" id="brand-text">SELVA FUTURO</span>
-            <span class="block font-serif italic text-[11px] text-selva/70">Por la vida en la selva, en comunidad y territorio</span>
+          <span>
+            <span class="brand-name">SELVA FUTURO</span>
+            <span class="brand-slogan">Por la vida en la selva, en comunidad y territorio</span>
           </span>
         </a>
 
-        <!-- Navegación -->
-        <ul class="hidden lg:flex items-center gap-7 text-sm font-medium" id="nav-items">
-          <li><a href="#nosotros"   class="nav-link text-bosque/80 hover:text-bosque">Nosotros</a></li>
-          <li><a href="#territorio" class="nav-link text-bosque/80 hover:text-bosque">Territorio</a></li>
-          <li><a href="#productivo" class="nav-link text-bosque/80 hover:text-bosque">Desarrollo productivo</a></li>
-          <li><a href="#jovenes"    class="nav-link text-bosque/80 hover:text-bosque">Jóvenes rurales</a></li>
-          <li><a href="#proyectos"  class="nav-link text-bosque/80 hover:text-bosque">Proyectos</a></li>
-          <li><a href="#participa"  class="nav-link text-bosque/80 hover:text-bosque">Participa</a></li>
+        <ul class="nav-links">
+          <li><a href="#nosotros">Nosotros</a></li>
+          <li><a href="#territorio">Territorio</a></li>
+          <li><a href="#productivo">Desarrollo productivo</a></li>
+          <li><a href="#jovenes">Jóvenes rurales</a></li>
+          <li><a href="#proyectos">Proyectos</a></li>
+          <li><a href="#participa">Participa</a></li>
         </ul>
 
-        <!-- Idiomas + Donar -->
-        <div class="flex items-center gap-4">
-          <div class="hidden sm:flex items-center gap-1 text-xs font-medium text-bosque/70">
-            <button class="px-1.5 py-0.5 rounded text-bosque font-semibold">ES</button>
-            <span class="text-bosque/30">·</span>
-            <button class="px-1.5 py-0.5 rounded hover:text-bosque">EN</button>
-            <span class="text-bosque/30">·</span>
-            <button class="px-1.5 py-0.5 rounded hover:text-bosque">PT</button>
-            <span class="text-bosque/30">·</span>
-            <button class="px-1.5 py-0.5 rounded hover:text-bosque">FR</button>
+        <div class="nav-right">
+          <div class="lang">
+            <button class="active">ES</button><span class="sep">·</span>
+            <button>EN</button><span class="sep">·</span>
+            <button>PT</button><span class="sep">·</span>
+            <button>FR</button>
           </div>
-          <a href="#donar" class="inline-flex items-center gap-2 rounded-full bg-dorado px-5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-dorado/90 transition">
-            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="currentColor"><path d="M12 21s-6.7-4.35-9.3-8.5C.9 9.6 2.2 6 5.5 6c2 0 3.3 1.2 4 2.3C10.2 7.2 11.5 6 13.5 6 16.8 6 18.1 9.6 16.3 12.5 13.7 16.65 12 21 12 21z"/></svg>
+          <a href="#donar" class="btn btn-gold">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-6.7-4.35-9.3-8.5C.9 9.6 2.2 6 5.5 6c2 0 3.3 1.2 4 2.3C10.2 7.2 11.5 6 13.5 6 16.8 6 18.1 9.6 16.3 12.5 13.7 16.65 12 21 12 21z"/></svg>
             Donar
           </a>
-          <!-- Botón móvil -->
-          <button id="menu-btn" class="lg:hidden inline-flex h-10 w-10 items-center justify-center rounded-lg text-bosque" aria-label="Abrir menú">
-            <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+          <button id="menu-btn" class="menu-btn" aria-label="Abrir menú" aria-expanded="false">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
           </button>
         </div>
       </nav>
     </div>
 
-    <!-- Menú móvil -->
-    <div id="mobile-menu" class="hidden lg:hidden bg-crema/95 backdrop-blur border-t border-bosque/10">
-      <ul class="px-5 py-4 space-y-3 text-sm font-medium">
-        <li><a href="#nosotros"   class="block py-1">Nosotros</a></li>
-        <li><a href="#territorio" class="block py-1">Territorio</a></li>
-        <li><a href="#productivo" class="block py-1">Desarrollo productivo</a></li>
-        <li><a href="#jovenes"    class="block py-1">Jóvenes rurales</a></li>
-        <li><a href="#proyectos"  class="block py-1">Proyectos</a></li>
-        <li><a href="#participa"  class="block py-1">Participa</a></li>
-        <li class="pt-2 flex gap-2 text-xs text-bosque/70"><span class="font-semibold text-bosque">ES</span><span>EN</span><span>PT</span><span>FR</span></li>
+    <div id="mobile-menu" class="mobile-menu">
+      <ul>
+        <li><a href="#nosotros">Nosotros</a></li>
+        <li><a href="#territorio">Territorio</a></li>
+        <li><a href="#productivo">Desarrollo productivo</a></li>
+        <li><a href="#jovenes">Jóvenes rurales</a></li>
+        <li><a href="#proyectos">Proyectos</a></li>
+        <li><a href="#participa">Participa</a></li>
+        <li class="lang-row"><span style="color:var(--bosque);font-weight:700">ES</span><span>EN</span><span>PT</span><span>FR</span></li>
       </ul>
     </div>
   </header>
 
   <!-- ============ HERO ============ -->
-  <section id="inicio" class="relative min-h-screen flex items-center hero-bg text-white overflow-hidden">
-    <!-- ===== ESPACIO FOTO/VIDEO PANORÁMICO DEL GUAVIARE (HERO) =====
-         Guarda una panorámica apaisada de alta resolución en:
-            assets/img/hero-guaviare.jpg   (recomendado: 1920x1080 o mayor)
-         Se mostrará de fondo; si no existe, queda el gradiente verde. -->
-    <img src="assets/img/hero-guaviare.jpg" alt="Paisaje panorámico del Guaviare"
-         class="absolute inset-0 h-full w-full object-cover"
-         onerror="this.style.display='none';" />
-    <div class="absolute inset-0 bg-gradient-to-b from-bosque/40 via-bosque/55 to-bosque/85"></div>
-    <!-- Nota de marcador de media -->
-    <span class="absolute top-24 right-5 z-20 rounded-full bg-black/30 px-3 py-1 text-[11px] text-white/80 ring-1 ring-white/20">
-      [FOTO/VIDEO PANORÁMICO] → assets/img/hero-guaviare.jpg
-    </span>
+  <section id="inicio" class="hero">
+    <!-- ===== FOTO/VIDEO PANORÁMICO DEL GUAVIARE ===== assets/img/hero-guaviare.jpg (apaisada 1920x1080+) -->
+    <img class="hero-img" src="assets/img/hero-guaviare.jpg" alt="Paisaje panorámico del Guaviare" onerror="this.style.display='none';" />
+    <div class="hero-overlay"></div>
+    <span class="hero-note">[FOTO/VIDEO PANORÁMICO] → assets/img/hero-guaviare.jpg</span>
 
-    <div class="relative z-10 mx-auto max-w-7xl px-5 lg:px-8 pt-28 pb-20">
-      <div class="max-w-3xl">
-        <p class="reveal mb-5 inline-flex items-center gap-2 rounded-full bg-white/10 px-4 py-1.5 text-xs font-medium tracking-wide ring-1 ring-white/20">
-          <span class="h-1.5 w-1.5 rounded-full bg-musgo"></span>
-          El Retorno · Guaviare · Colombia
-        </p>
-        <h1 class="reveal font-serif text-4xl sm:text-5xl lg:text-6xl font-light leading-[1.1]">
-          El futuro de la selva<br class="hidden sm:block" /> se construye <span class="italic text-musgo">en comunidad</span>.
-        </h1>
-        <p class="reveal mt-6 max-w-xl text-base sm:text-lg text-white/85 leading-relaxed font-light">
-          Somos la Corporación Selva Futuro. Trabajamos desde el territorio por la conservación
-          ambiental, el fortalecimiento comunitario y el desarrollo sostenible del Guaviare —
-          con especial compromiso con los <strong class="font-medium text-white">jóvenes rurales</strong>.
-        </p>
-        <div class="reveal mt-9 flex flex-wrap gap-4">
-          <a href="#territorio" class="inline-flex items-center gap-2 rounded-full bg-white px-6 py-3 text-sm font-semibold text-bosque hover:bg-marfil transition">
-            Explorar el territorio
-            <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-          </a>
-          <a href="#nosotros" class="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white ring-1 ring-white/40 hover:bg-white/10 transition">
-            Conocer la organización
-          </a>
+    <div class="hero-content">
+      <div class="container">
+        <div class="hero-inner">
+          <p class="badge reveal"><span class="dot"></span> El Retorno · Guaviare · Colombia</p>
+          <h1 class="reveal">El futuro de la selva<br> se construye <span class="accent">en comunidad</span>.</h1>
+          <p class="intro reveal">
+            Somos la Corporación Selva Futuro. Trabajamos desde el territorio por la conservación
+            ambiental, el fortalecimiento comunitario y el desarrollo sostenible del Guaviare —
+            con especial compromiso con los <strong>jóvenes rurales</strong>.
+          </p>
+          <div class="hero-actions reveal">
+            <a href="#territorio" class="btn btn-white">
+              Explorar el territorio
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </a>
+            <a href="#nosotros" class="btn btn-ghost">Conocer la organización</a>
+          </div>
         </div>
       </div>
     </div>
 
-    <!-- Franja de lema -->
-    <div class="absolute bottom-0 inset-x-0 z-10 border-t border-white/15 bg-bosque/40 backdrop-blur-sm">
-      <div class="mx-auto max-w-7xl px-5 lg:px-8 py-4">
-        <p class="font-serif italic text-center text-white/80 text-sm sm:text-base">« Por la vida en la selva, en comunidad y territorio. »</p>
-      </div>
+    <div class="hero-slogan">
+      <div class="container"><p>« Por la vida en la selva, en comunidad y territorio. »</p></div>
     </div>
   </section>
 
   <!-- ============ INTRO INSTITUCIONAL ============ -->
-  <section class="py-20 lg:py-28 bg-crema">
-    <div class="mx-auto max-w-5xl px-5 lg:px-8 text-center">
-      <span class="reveal text-xs font-semibold uppercase tracking-[0.25em] text-selva">Quiénes somos</span>
-      <h2 class="reveal mt-4 font-serif text-3xl sm:text-4xl font-light leading-snug text-bosque">
-        Una corporación del Guaviare que cree que el territorio
-        no es solo un lugar que conservar, sino un espacio de
-        <span class="italic text-selva">oportunidades, conocimiento, comunidad y futuro</span>.
-      </h2>
-      <p class="reveal mx-auto mt-6 max-w-2xl text-bosque/70 leading-relaxed">
-        La Corporación Selva Futuro (CORPOSELFUTURO) es una entidad sin ánimo de lucro, de utilidad común,
-        con domicilio en El Retorno, Guaviare. Promovemos el bienestar social, ambiental y económico de
-        las comunidades rurales y amazónicas a través del desarrollo comunitario, la asistencia técnica
-        agropecuaria y agroforestal, la defensa de los ecosistemas y el turismo de naturaleza.
-      </p>
-    </div>
-  </section>
-
-  <!-- ============ LÍNEAS DE TRABAJO ============ -->
-  <section id="nosotros" class="py-20 lg:py-28 bg-marfil">
-    <div class="mx-auto max-w-7xl px-5 lg:px-8">
-      <div class="max-w-2xl">
-        <span class="reveal text-xs font-semibold uppercase tracking-[0.25em] text-selva">Nuestro trabajo</span>
-        <h2 class="reveal mt-4 font-serif text-3xl sm:text-4xl font-light text-bosque">Líneas de acción</h2>
-        <p class="reveal mt-4 text-bosque/70">Nuestras líneas nacen directamente del objeto social de la Corporación.</p>
-      </div>
-
-      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <!-- Tarjeta -->
-        <article class="reveal card-hover rounded-2xl bg-crema p-7 ring-1 ring-bosque/10">
-          <div class="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-selva/10 text-selva">
-            <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/></svg>
-          </div>
-          <h3 class="font-serif text-xl text-bosque">Conservación ambiental</h3>
-          <p class="mt-3 text-sm text-bosque/70 leading-relaxed">Defensa de los ecosistemas, uso racional de los recursos naturales y sensibilización ambiental en el territorio.</p>
-        </article>
-
-        <article class="reveal card-hover rounded-2xl bg-crema p-7 ring-1 ring-bosque/10">
-          <div class="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-selva/10 text-selva">
-            <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-          </div>
-          <h3 class="font-serif text-xl text-bosque">Fortalecimiento comunitario</h3>
-          <p class="mt-3 text-sm text-bosque/70 leading-relaxed">Desarrollo social, participación ciudadana y fortalecimiento de las organizaciones campesinas y comunitarias.</p>
-        </article>
-
-        <article class="reveal card-hover rounded-2xl bg-crema p-7 ring-1 ring-bosque/10">
-          <div class="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-selva/10 text-selva">
-            <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21h18M6 21V9l6-4 6 4v12M10 21v-5h4v5"/></svg>
-          </div>
-          <h3 class="font-serif text-xl text-bosque">Asistencia técnica rural</h3>
-          <p class="mt-3 text-sm text-bosque/70 leading-relaxed">Acompañamiento agropecuario y agroforestal a pequeños y medianos productores y a sus asociaciones.</p>
-        </article>
-
-        <article class="reveal card-hover rounded-2xl bg-crema p-7 ring-1 ring-bosque/10">
-          <div class="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-selva/10 text-selva">
-            <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 12c4-6 12-6 16 0-4 6-12 6-16 0z"/><circle cx="12" cy="12" r="2.5"/></svg>
-          </div>
-          <h3 class="font-serif text-xl text-bosque">Turismo de naturaleza</h3>
-          <p class="mt-3 text-sm text-bosque/70 leading-relaxed">Agroturismo responsable, turismo científico y aviturismo como estrategia de conservación e ingresos locales.</p>
-        </article>
-
-        <article class="reveal card-hover rounded-2xl bg-crema p-7 ring-1 ring-bosque/10">
-          <div class="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-selva/10 text-selva">
-            <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v18M5 8l7-5 7 5M5 8v8l7 5 7-5V8"/></svg>
-          </div>
-          <h3 class="font-serif text-xl text-bosque">Producción sostenible</h3>
-          <p class="mt-3 text-sm text-bosque/70 leading-relaxed">Sistemas agroforestales, agroecología, transformación y comercialización con enfoque de economía comunitaria.</p>
-        </article>
-
-        <article class="reveal card-hover rounded-2xl bg-bosque p-7 text-white ring-1 ring-bosque">
-          <div class="mb-5 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-musgo">
-            <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 21v-2a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v2M16 14h1a4 4 0 0 1 4 4v3"/></svg>
-          </div>
-          <h3 class="font-serif text-xl">Jóvenes rurales</h3>
-          <p class="mt-3 text-sm text-white/75 leading-relaxed">Nuestra apuesta central: políticas juveniles, formación y fortalecimiento organizativo de los jóvenes del campo.</p>
-        </article>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ JÓVENES RURALES (destacado) ============ -->
-  <section id="jovenes" class="py-20 lg:py-28 bg-crema">
-    <div class="mx-auto max-w-7xl px-5 lg:px-8 grid lg:grid-cols-2 gap-12 items-center">
-      <div class="reveal">
-        <span class="text-xs font-semibold uppercase tracking-[0.25em] text-dorado">Nuestra apuesta</span>
-        <h2 class="mt-4 font-serif text-3xl sm:text-4xl font-light text-bosque">Jóvenes que se quedan, crean y transforman el campo</h2>
-        <p class="mt-5 text-bosque/70 leading-relaxed">
-          Creemos que el futuro del Guaviare pasa por su juventud. Por eso impulsamos la formación,
-          el emprendimiento y el liderazgo de los jóvenes rurales, para que encuentren en su territorio
-          oportunidades reales de vida digna, conocimiento y arraigo.
+  <section class="section bg-crema">
+    <div class="container">
+      <div class="intro-block">
+        <span class="eyebrow reveal">Quiénes somos</span>
+        <h2 class="reveal">
+          Una corporación del Guaviare que cree que el territorio no es solo un lugar que conservar,
+          sino un espacio de <span class="accent">oportunidades, conocimiento, comunidad y futuro</span>.
+        </h2>
+        <p class="lead reveal">
+          La Corporación Selva Futuro (CORPOSELFUTURO) es una entidad sin ánimo de lucro, de utilidad común,
+          con domicilio en El Retorno, Guaviare. Promovemos el bienestar social, ambiental y económico de
+          las comunidades rurales y amazónicas a través del desarrollo comunitario, la asistencia técnica
+          agropecuaria y agroforestal, la defensa de los ecosistemas y el turismo de naturaleza.
         </p>
-        <ul class="mt-6 space-y-3 text-sm text-bosque/80">
-          <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-dorado shrink-0"></span> Comité de Jóvenes activo dentro de la estructura de la Corporación.</li>
-          <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-dorado shrink-0"></span> Formación en artes, oficios, tecnología e innovación.</li>
-          <li class="flex gap-3"><span class="mt-1 h-2 w-2 rounded-full bg-dorado shrink-0"></span> Acompañamiento a emprendimientos y asociaciones juveniles.</li>
-        </ul>
-        <a href="#participa" class="mt-8 inline-flex items-center gap-2 rounded-full bg-selva px-6 py-3 text-sm font-semibold text-white hover:bg-selva/90 transition">
-          Súmate como joven o aliado
-          <svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </a>
       </div>
-      <!-- ===== ESPACIO FOTO JÓVENES RURALES =====  assets/img/jovenes-rurales.jpg (4:3) -->
-      <div class="reveal relative aspect-[4/3] rounded-3xl bg-gradient-to-br from-selva to-bosque ring-1 ring-bosque/10 overflow-hidden flex items-center justify-center">
-        <img src="assets/img/jovenes-rurales.jpg" alt="Jóvenes rurales del Guaviare"
-             class="absolute inset-0 h-full w-full object-cover"
-             onerror="this.style.display='none';" />
-        <span class="relative text-white/60 text-sm px-6 text-center">[FOTO JÓVENES RURALES] → assets/img/jovenes-rurales.jpg</span>
+    </div>
+  </section>
+
+  <!-- ============ LÍNEAS DE ACCIÓN ============ -->
+  <section id="nosotros" class="section bg-marfil">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow reveal">Nuestro trabajo</span>
+        <h2 class="title reveal">Líneas de acción</h2>
+        <p class="lead reveal">Nuestras líneas nacen directamente del objeto social de la Corporación.</p>
+      </div>
+
+      <div class="grid sm-2 lg-3 mt-12">
+        <article class="card reveal">
+          <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 22s8-4 8-11V5l-8-3-8 3v6c0 7 8 11 8 11z"/></svg></div>
+          <h3>Conservación ambiental</h3>
+          <p>Defensa de los ecosistemas, uso racional de los recursos naturales y sensibilización ambiental en el territorio.</p>
+        </article>
+        <article class="card reveal">
+          <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></div>
+          <h3>Fortalecimiento comunitario</h3>
+          <p>Desarrollo social, participación ciudadana y fortalecimiento de las organizaciones campesinas y comunitarias.</p>
+        </article>
+        <article class="card reveal">
+          <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 21h18M6 21V9l6-4 6 4v12M10 21v-5h4v5"/></svg></div>
+          <h3>Asistencia técnica rural</h3>
+          <p>Acompañamiento agropecuario y agroforestal a pequeños y medianos productores y a sus asociaciones.</p>
+        </article>
+        <article class="card reveal">
+          <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M4 12c4-6 12-6 16 0-4 6-12 6-16 0z"/><circle cx="12" cy="12" r="2.5"/></svg></div>
+          <h3>Turismo de naturaleza</h3>
+          <p>Agroturismo responsable, turismo científico y aviturismo como estrategia de conservación e ingresos locales.</p>
+        </article>
+        <article class="card reveal">
+          <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3v18M5 8l7-5 7 5M5 8v8l7 5 7-5V8"/></svg></div>
+          <h3>Producción sostenible</h3>
+          <p>Sistemas agroforestales, agroecología, transformación y comercialización con enfoque de economía comunitaria.</p>
+        </article>
+        <article class="card dark reveal">
+          <div class="icon-box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="9" cy="7" r="3"/><circle cx="17" cy="9" r="2.5"/><path d="M2 21v-2a5 5 0 0 1 5-5h4a5 5 0 0 1 5 5v2M16 14h1a4 4 0 0 1 4 4v3"/></svg></div>
+          <h3>Jóvenes rurales</h3>
+          <p>Nuestra apuesta central: políticas juveniles, formación y fortalecimiento organizativo de los jóvenes del campo.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ JÓVENES RURALES ============ -->
+  <section id="jovenes" class="section bg-crema">
+    <div class="container">
+      <div class="grid split" style="gap:3rem;">
+        <div class="feature-text reveal">
+          <span class="eyebrow gold">Nuestra apuesta</span>
+          <h2>Jóvenes que se quedan, crean y transforman el campo</h2>
+          <p class="lead">
+            Creemos que el futuro del Guaviare pasa por su juventud. Por eso impulsamos la formación,
+            el emprendimiento y el liderazgo de los jóvenes rurales, para que encuentren en su territorio
+            oportunidades reales de vida digna, conocimiento y arraigo.
+          </p>
+          <ul class="feature-list">
+            <li><span class="bullet"></span> Comité de Jóvenes activo dentro de la estructura de la Corporación.</li>
+            <li><span class="bullet"></span> Formación en artes, oficios, tecnología e innovación.</li>
+            <li><span class="bullet"></span> Acompañamiento a emprendimientos y asociaciones juveniles.</li>
+          </ul>
+          <a href="#participa" class="btn btn-selva">
+            Súmate como joven o aliado
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </a>
+        </div>
+        <!-- ===== FOTO JÓVENES RURALES ===== assets/img/jovenes-rurales.jpg (4:3) -->
+        <div class="feature-media reveal">
+          <img src="assets/img/jovenes-rurales.jpg" alt="Jóvenes rurales del Guaviare" onerror="this.style.display='none';" />
+          <span class="media-label">[FOTO JÓVENES RURALES] → assets/img/jovenes-rurales.jpg</span>
+        </div>
       </div>
     </div>
   </section>
 
   <!-- ============ TERRITORIO ============ -->
-  <section id="territorio" class="py-20 lg:py-28 bg-bosque text-white">
-    <div class="mx-auto max-w-7xl px-5 lg:px-8">
-      <div class="max-w-2xl">
-        <span class="reveal text-xs font-semibold uppercase tracking-[0.25em] text-musgo">Nuestro territorio</span>
-        <h2 class="reveal mt-4 font-serif text-3xl sm:text-4xl font-light">El Guaviare: selva, agua, memoria y vida</h2>
-        <p class="reveal mt-4 text-white/70">Un recorrido por los paisajes, la biodiversidad y las comunidades del territorio donde trabajamos.</p>
+  <section id="territorio" class="section bg-bosque">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow moss reveal">Nuestro territorio</span>
+        <h2 class="title reveal" style="color:#fff">El Guaviare: selva, agua, memoria y vida</h2>
+        <p class="lead reveal" style="color:rgba(255,255,255,.7)">Un recorrido por los paisajes, la biodiversidad y las comunidades del territorio donde trabajamos.</p>
       </div>
-      <!-- ===== GALERÍA DEL TERRITORIO — 4 FOTOS VERTICALES (3:4) =====
-           Guarda cada foto con el nombre indicado en assets/img/ -->
-      <div class="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <div class="reveal card-hover group relative aspect-[3/4] rounded-2xl bg-selva/40 ring-1 ring-white/10 overflow-hidden flex items-end p-5">
-          <img src="assets/img/territorio-bosques.jpg" alt="Selvas y bosques del Guaviare" class="absolute inset-0 h-full w-full object-cover transition group-hover:scale-105" onerror="this.style.display='none';" />
-          <span class="absolute top-3 left-3 text-white/50 text-[10px]">[FOTO] territorio-bosques.jpg</span>
-          <span class="relative font-serif text-lg drop-shadow">Selvas y bosques</span>
+      <!-- ===== GALERÍA TERRITORIO — 4 FOTOS VERTICALES (3:4) ===== -->
+      <div class="grid sm-2 lg-4 cols-gap-sm mt-12">
+        <div class="tile t1 reveal">
+          <img src="assets/img/territorio-bosques.jpg" alt="Selvas y bosques del Guaviare" onerror="this.style.display='none';" />
+          <span class="tag">[FOTO] territorio-bosques.jpg</span>
+          <span class="name">Selvas y bosques</span>
         </div>
-        <div class="reveal card-hover group relative aspect-[3/4] rounded-2xl bg-selva/30 ring-1 ring-white/10 overflow-hidden flex items-end p-5">
-          <img src="assets/img/territorio-rios.jpg" alt="Ríos y fuentes hídricas del Guaviare" class="absolute inset-0 h-full w-full object-cover transition group-hover:scale-105" onerror="this.style.display='none';" />
-          <span class="absolute top-3 left-3 text-white/50 text-[10px]">[FOTO] territorio-rios.jpg</span>
-          <span class="relative font-serif text-lg drop-shadow">Ríos y fuentes hídricas</span>
+        <div class="tile t2 reveal">
+          <img src="assets/img/territorio-rios.jpg" alt="Ríos y fuentes hídricas del Guaviare" onerror="this.style.display='none';" />
+          <span class="tag">[FOTO] territorio-rios.jpg</span>
+          <span class="name">Ríos y fuentes hídricas</span>
         </div>
-        <div class="reveal card-hover group relative aspect-[3/4] rounded-2xl bg-selva/50 ring-1 ring-white/10 overflow-hidden flex items-end p-5">
-          <img src="assets/img/territorio-fauna.jpg" alt="Fauna y flora del Guaviare" class="absolute inset-0 h-full w-full object-cover transition group-hover:scale-105" onerror="this.style.display='none';" />
-          <span class="absolute top-3 left-3 text-white/50 text-[10px]">[FOTO] territorio-fauna.jpg</span>
-          <span class="relative font-serif text-lg drop-shadow">Fauna y flora</span>
+        <div class="tile t3 reveal">
+          <img src="assets/img/territorio-fauna.jpg" alt="Fauna y flora del Guaviare" onerror="this.style.display='none';" />
+          <span class="tag">[FOTO] territorio-fauna.jpg</span>
+          <span class="name">Fauna y flora</span>
         </div>
-        <div class="reveal card-hover group relative aspect-[3/4] rounded-2xl bg-selva/20 ring-1 ring-white/10 overflow-hidden flex items-end p-5">
-          <img src="assets/img/territorio-comunidades.jpg" alt="Cultura y comunidades del Guaviare" class="absolute inset-0 h-full w-full object-cover transition group-hover:scale-105" onerror="this.style.display='none';" />
-          <span class="absolute top-3 left-3 text-white/50 text-[10px]">[FOTO] territorio-comunidades.jpg</span>
-          <span class="relative font-serif text-lg drop-shadow">Cultura y comunidades</span>
+        <div class="tile t4 reveal">
+          <img src="assets/img/territorio-comunidades.jpg" alt="Cultura y comunidades del Guaviare" onerror="this.style.display='none';" />
+          <span class="tag">[FOTO] territorio-comunidades.jpg</span>
+          <span class="name">Cultura y comunidades</span>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ============ DESARROLLO PRODUCTIVO ============ -->
-  <section id="productivo" class="py-20 lg:py-28 bg-marfil">
-    <div class="mx-auto max-w-7xl px-5 lg:px-8">
-      <div class="max-w-2xl">
-        <span class="reveal text-xs font-semibold uppercase tracking-[0.25em] text-selva">Vitrina territorial</span>
-        <h2 class="reveal mt-4 font-serif text-3xl sm:text-4xl font-light text-bosque">Desarrollo productivo sostenible</h2>
-        <p class="reveal mt-4 text-bosque/70">Productores, emprendimientos y productos del Guaviare. <em>(Las fichas se cargarán desde el panel de gestión.)</em></p>
+  <section id="productivo" class="section bg-marfil">
+    <div class="container">
+      <div class="section-head">
+        <span class="eyebrow reveal">Vitrina territorial</span>
+        <h2 class="title reveal">Desarrollo productivo sostenible</h2>
+        <p class="lead reveal">Productores, emprendimientos y productos del Guaviare. <em>(Las fichas se cargarán desde el panel de gestión.)</em></p>
       </div>
-      <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        <!-- ===== FICHAS PRODUCTIVAS — FOTO 16:9 (assets/img/) ===== -->
-        <article class="reveal card-hover rounded-2xl bg-crema ring-1 ring-bosque/10 overflow-hidden">
-          <div class="relative aspect-video bg-arena/40 flex items-center justify-center text-bosque/40 text-xs overflow-hidden">
-            <img src="assets/img/productivo-1.jpg" alt="Emprendimiento rural" class="absolute inset-0 h-full w-full object-cover" onerror="this.style.display='none';" />
-            <span class="relative">[FOTO] productivo-1.jpg</span>
+      <div class="grid sm-2 lg-3 mt-12">
+        <article class="prod-card reveal">
+          <div class="prod-media">
+            <img src="assets/img/productivo-1.jpg" alt="Emprendimiento rural" onerror="this.style.display='none';" />
+            <span>[FOTO] productivo-1.jpg</span>
           </div>
-          <div class="p-6">
-            <span class="text-[11px] font-semibold uppercase tracking-wide text-dorado">Próximamente</span>
-            <h3 class="mt-2 font-serif text-xl text-bosque">Primer emprendimiento</h3>
-            <p class="mt-2 text-sm text-bosque/60">Ficha pendiente de cargar. Aquí aparecerán los emprendimientos rurales acompañados por la Corporación.</p>
-          </div>
-        </article>
-        <article class="reveal card-hover rounded-2xl bg-crema ring-1 ring-bosque/10 overflow-hidden">
-          <div class="relative aspect-video bg-arena/40 flex items-center justify-center text-bosque/40 text-xs overflow-hidden">
-            <img src="assets/img/productivo-2.jpg" alt="Sistemas agroforestales" class="absolute inset-0 h-full w-full object-cover" onerror="this.style.display='none';" />
-            <span class="relative">[FOTO] productivo-2.jpg</span>
-          </div>
-          <div class="p-6">
-            <span class="text-[11px] font-semibold uppercase tracking-wide text-dorado">Próximamente</span>
-            <h3 class="mt-2 font-serif text-xl text-bosque">Sistemas agroforestales</h3>
-            <p class="mt-2 text-sm text-bosque/60">Ficha pendiente de cargar. Experiencias de producción agroecológica y agroforestal.</p>
+          <div class="prod-body">
+            <span class="pill">Próximamente</span>
+            <h3>Primer emprendimiento</h3>
+            <p>Ficha pendiente de cargar. Aquí aparecerán los emprendimientos rurales acompañados por la Corporación.</p>
           </div>
         </article>
-        <article class="reveal card-hover rounded-2xl bg-crema ring-1 ring-bosque/10 overflow-hidden">
-          <div class="relative aspect-video bg-arena/40 flex items-center justify-center text-bosque/40 text-xs overflow-hidden">
-            <img src="assets/img/productivo-3.jpg" alt="Productos locales" class="absolute inset-0 h-full w-full object-cover" onerror="this.style.display='none';" />
-            <span class="relative">[FOTO] productivo-3.jpg</span>
+        <article class="prod-card reveal">
+          <div class="prod-media">
+            <img src="assets/img/productivo-2.jpg" alt="Sistemas agroforestales" onerror="this.style.display='none';" />
+            <span>[FOTO] productivo-2.jpg</span>
           </div>
-          <div class="p-6">
-            <span class="text-[11px] font-semibold uppercase tracking-wide text-dorado">Próximamente</span>
-            <h3 class="mt-2 font-serif text-xl text-bosque">Productos locales</h3>
-            <p class="mt-2 text-sm text-bosque/60">Ficha pendiente de cargar. Transformación y comercialización con economía comunitaria.</p>
+          <div class="prod-body">
+            <span class="pill">Próximamente</span>
+            <h3>Sistemas agroforestales</h3>
+            <p>Ficha pendiente de cargar. Experiencias de producción agroecológica y agroforestal.</p>
+          </div>
+        </article>
+        <article class="prod-card reveal">
+          <div class="prod-media">
+            <img src="assets/img/productivo-3.jpg" alt="Productos locales" onerror="this.style.display='none';" />
+            <span>[FOTO] productivo-3.jpg</span>
+          </div>
+          <div class="prod-body">
+            <span class="pill">Próximamente</span>
+            <h3>Productos locales</h3>
+            <p>Ficha pendiente de cargar. Transformación y comercialización con economía comunitaria.</p>
           </div>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- ============ INDICADORES DE IMPACTO ============ -->
-  <section class="py-16 bg-selva text-white">
-    <div class="mx-auto max-w-7xl px-5 lg:px-8">
-      <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4 text-center">
-        <div class="reveal">
-          <div class="font-serif text-4xl font-light">2026</div>
-          <p class="mt-1 text-sm text-white/70">Año de fundación</p>
-        </div>
-        <div class="reveal">
-          <div class="font-serif text-4xl font-light">1</div>
-          <p class="mt-1 text-sm text-white/70">Municipio de origen · El Retorno</p>
-        </div>
-        <div class="reveal">
-          <div class="font-serif text-4xl font-light">10</div>
-          <p class="mt-1 text-sm text-white/70">Comités de trabajo</p>
-        </div>
-        <div class="reveal">
-          <div class="font-serif text-4xl font-light">∞</div>
-          <p class="mt-1 text-sm text-white/70">Oportunidades por construir</p>
-        </div>
+  <!-- ============ INDICADORES ============ -->
+  <section class="section bg-selva" style="padding:4rem 0;">
+    <div class="container">
+      <div class="stats">
+        <div class="stat reveal"><div class="num">2026</div><p>Año de fundación</p></div>
+        <div class="stat reveal"><div class="num">1</div><p>Municipio de origen · El Retorno</p></div>
+        <div class="stat reveal"><div class="num">10</div><p>Comités de trabajo</p></div>
+        <div class="stat reveal"><div class="num">∞</div><p>Oportunidades por construir</p></div>
       </div>
-      <p class="reveal mt-8 text-center text-xs text-white/50">Los indicadores reales de impacto serán administrables desde el panel de gestión a medida que avancen los proyectos.</p>
+      <p class="stats-note reveal">Los indicadores reales de impacto serán administrables desde el panel de gestión a medida que avancen los proyectos.</p>
     </div>
   </section>
 
   <!-- ============ PROYECTOS ============ -->
-  <section id="proyectos" class="py-20 lg:py-28 bg-crema">
-    <div class="mx-auto max-w-7xl px-5 lg:px-8 text-center">
-      <span class="reveal text-xs font-semibold uppercase tracking-[0.25em] text-selva">Proyectos e iniciativas</span>
-      <h2 class="reveal mt-4 font-serif text-3xl sm:text-4xl font-light text-bosque">Estamos comenzando. Y queremos hacerlo contigo.</h2>
-      <p class="reveal mx-auto mt-5 max-w-2xl text-bosque/70">
+  <section id="proyectos" class="section bg-crema">
+    <div class="container center">
+      <span class="eyebrow reveal">Proyectos e iniciativas</span>
+      <h2 class="title reveal">Estamos comenzando. Y queremos hacerlo contigo.</h2>
+      <p class="lead reveal" style="max-width:42rem;margin:1.25rem auto 0;">
         Como corporación recién constituida, estamos formulando nuestros primeros proyectos de
         conservación, desarrollo productivo y juventud rural. Este espacio mostrará cada iniciativa
         con su objetivo, comunidad participante, estado y resultados.
       </p>
-      <div class="reveal mt-10 inline-flex items-center gap-3 rounded-2xl border border-dashed border-selva/40 bg-marfil px-8 py-6 text-left">
-        <svg viewBox="0 0 24 24" class="h-8 w-8 text-selva shrink-0" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12h14"/></svg>
+      <div class="proj-empty reveal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12h14"/></svg>
         <div>
-          <p class="font-serif text-lg text-bosque">Catálogo de proyectos en preparación</p>
-          <p class="text-sm text-bosque/60">Se cargará y administrará desde el panel de gestión (Fase CMS).</p>
+          <p class="t">Catálogo de proyectos en preparación</p>
+          <p class="s">Se cargará y administrará desde el panel de gestión (Fase CMS).</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ============ PARTICIPA / ALIADOS ============ -->
-  <section id="participa" class="py-20 lg:py-28 bg-marfil">
-    <div class="mx-auto max-w-7xl px-5 lg:px-8 grid lg:grid-cols-2 gap-12">
-      <div class="reveal">
-        <span class="text-xs font-semibold uppercase tracking-[0.25em] text-selva">Participa y crea alianzas</span>
-        <h2 class="mt-4 font-serif text-3xl sm:text-4xl font-light text-bosque">Construyamos futuro juntos</h2>
-        <p class="mt-5 text-bosque/70 leading-relaxed">
-          Buscamos voluntarios, universidades, investigadores, organizaciones sociales, empresas,
-          cooperantes e instituciones que quieran sumar a la conservación y al desarrollo comunitario
-          del Guaviare.
-        </p>
-        <div class="mt-8 space-y-4">
-          <div class="flex items-center gap-3 text-bosque/80 text-sm"><span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-selva/10 text-selva"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v12H5.2L4 17.5z"/></svg></span> coselfuturo26@gmail.com</div>
-          <div class="flex items-center gap-3 text-bosque/80 text-sm"><span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-selva/10 text-selva"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4h4l2 5-3 2a12 12 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span> 317 798 9684</div>
-          <div class="flex items-center gap-3 text-bosque/80 text-sm"><span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-selva/10 text-selva"><svg viewBox="0 0 24 24" class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></span> El Retorno, Guaviare — Colombia</div>
+  <section id="participa" class="section bg-marfil">
+    <div class="container">
+      <div class="grid split" style="gap:3rem;">
+        <div class="reveal">
+          <span class="eyebrow">Participa y crea alianzas</span>
+          <h2 class="title">Construyamos futuro juntos</h2>
+          <p class="lead" style="margin-top:1.25rem;">
+            Buscamos voluntarios, universidades, investigadores, organizaciones sociales, empresas,
+            cooperantes e instituciones que quieran sumar a la conservación y al desarrollo comunitario del Guaviare.
+          </p>
+          <div class="contact-info">
+            <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4h16v12H5.2L4 17.5z"/></svg></span> coselfuturo26@gmail.com</div>
+            <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 4h4l2 5-3 2a12 12 0 0 0 5 5l2-3 5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2z"/></svg></span> 317 798 9684</div>
+            <div class="row"><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg></span> El Retorno, Guaviare — Colombia</div>
+          </div>
+        </div>
+
+        <!-- Formulario (maqueta; el envío real se activa en la fase de formularios) -->
+        <div class="form-card reveal">
+          <h3>Escríbenos</h3>
+          <form onsubmit="event.preventDefault(); this.reset(); alert('Prototipo: el envío real se activa en la fase de formularios (con antispam).');">
+            <input required placeholder="Nombre completo" />
+            <input required type="email" placeholder="Correo electrónico" />
+            <select>
+              <option>Quiero ser voluntario/a</option>
+              <option>Soy joven rural interesado/a</option>
+              <option>Represento una organización / empresa</option>
+              <option>Cooperación internacional</option>
+              <option>Otro</option>
+            </select>
+            <textarea rows="4" placeholder="Cuéntanos tu propuesta"></textarea>
+            <label class="consent"><input type="checkbox" required /> Autorizo el tratamiento de mis datos conforme a la política de privacidad (Ley 1581 de 2012).</label>
+            <button type="submit" class="btn btn-selva">Enviar mensaje</button>
+          </form>
         </div>
       </div>
 
-      <!-- Formulario (maqueta; validación real llega en fase de formularios) -->
-      <div class="reveal rounded-3xl bg-crema p-8 ring-1 ring-bosque/10">
-        <h3 class="font-serif text-xl text-bosque">Escríbenos</h3>
-        <form class="mt-5 space-y-4" onsubmit="event.preventDefault(); this.reset(); alert('Prototipo: el envío real se activa en la fase de formularios (con antispam).');">
-          <input required placeholder="Nombre completo" class="w-full rounded-xl border border-bosque/15 bg-white px-4 py-3 text-sm focus:border-selva focus:ring-2 focus:ring-selva/20 outline-none" />
-          <input required type="email" placeholder="Correo electrónico" class="w-full rounded-xl border border-bosque/15 bg-white px-4 py-3 text-sm focus:border-selva focus:ring-2 focus:ring-selva/20 outline-none" />
-          <select class="w-full rounded-xl border border-bosque/15 bg-white px-4 py-3 text-sm text-bosque/70 focus:border-selva outline-none">
-            <option>Quiero ser voluntario/a</option>
-            <option>Soy joven rural interesado/a</option>
-            <option>Represento una organización / empresa</option>
-            <option>Cooperación internacional</option>
-            <option>Otro</option>
-          </select>
-          <textarea rows="4" placeholder="Cuéntanos tu propuesta" class="w-full rounded-xl border border-bosque/15 bg-white px-4 py-3 text-sm focus:border-selva focus:ring-2 focus:ring-selva/20 outline-none"></textarea>
-          <label class="flex items-start gap-2 text-xs text-bosque/60"><input type="checkbox" required class="mt-0.5" /> Autorizo el tratamiento de mis datos conforme a la política de privacidad (Ley 1581 de 2012).</label>
-          <button class="w-full rounded-full bg-selva py-3 text-sm font-semibold text-white hover:bg-selva/90 transition">Enviar mensaje</button>
-        </form>
-      </div>
-    </div>
-
-    <!-- Aliados -->
-    <div class="mx-auto max-w-7xl px-5 lg:px-8 mt-16">
-      <p class="reveal text-center text-xs font-semibold uppercase tracking-[0.25em] text-bosque/40">Aliados y cooperantes</p>
-      <div class="reveal mt-6 grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <div class="flex items-center justify-center rounded-xl border border-dashed border-bosque/20 py-8 text-xs text-bosque/40">[Logo aliado]</div>
-        <div class="flex items-center justify-center rounded-xl border border-dashed border-bosque/20 py-8 text-xs text-bosque/40">[Logo aliado]</div>
-        <div class="flex items-center justify-center rounded-xl border border-dashed border-bosque/20 py-8 text-xs text-bosque/40">[Logo aliado]</div>
-        <div class="flex items-center justify-center rounded-xl border border-dashed border-bosque/20 py-8 text-xs text-bosque/40">[Logo aliado]</div>
+      <div class="allies">
+        <p class="label reveal">Aliados y cooperantes</p>
+        <div class="allies-grid reveal">
+          <div class="ally">[Logo aliado]</div>
+          <div class="ally">[Logo aliado]</div>
+          <div class="ally">[Logo aliado]</div>
+          <div class="ally">[Logo aliado]</div>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ CTA DONAR ============ -->
-  <section id="donar" class="py-20 lg:py-24 bg-bosque text-white relative overflow-hidden">
-    <div class="mx-auto max-w-4xl px-5 lg:px-8 text-center relative z-10">
-      <h2 class="reveal font-serif text-3xl sm:text-4xl font-light">Tu aporte siembra futuro en la selva</h2>
-      <p class="reveal mx-auto mt-5 max-w-2xl text-white/75 leading-relaxed">
-        Con tu donación apoyas la conservación, el desarrollo productivo y a los jóvenes rurales del Guaviare.
-        Los recursos se destinan íntegramente al objeto social de la Corporación.
-      </p>
-      <div class="reveal mt-9 flex flex-wrap justify-center gap-3">
-        <button class="rounded-full bg-white/10 px-6 py-3 text-sm font-semibold ring-1 ring-white/20 hover:bg-white/20 transition">$50.000 COP</button>
-        <button class="rounded-full bg-white/10 px-6 py-3 text-sm font-semibold ring-1 ring-white/20 hover:bg-white/20 transition">$100.000 COP</button>
-        <button class="rounded-full bg-white/10 px-6 py-3 text-sm font-semibold ring-1 ring-white/20 hover:bg-white/20 transition">$200.000 COP</button>
-        <button class="rounded-full bg-dorado px-6 py-3 text-sm font-semibold hover:bg-dorado/90 transition">Otro monto</button>
+  <!-- ============ DONAR ============ -->
+  <section id="donar" class="section bg-bosque donate">
+    <div class="container">
+      <div class="inner">
+        <h2 class="reveal">Tu aporte siembra futuro en la selva</h2>
+        <p class="lead reveal">
+          Con tu donación apoyas la conservación, el desarrollo productivo y a los jóvenes rurales del Guaviare.
+          Los recursos se destinan íntegramente al objeto social de la Corporación.
+        </p>
+        <div class="donate-amounts reveal">
+          <button class="amount">$50.000 COP</button>
+          <button class="amount">$100.000 COP</button>
+          <button class="amount">$200.000 COP</button>
+          <button class="amount gold">Otro monto</button>
+        </div>
+        <p class="donate-note reveal">
+          [Pendiente de integración real] Los botones de donación se activarán cuando conectemos una pasarela segura
+          (Wompi para Colombia · PayPal internacional). El sitio nunca almacenará datos de tarjetas.
+        </p>
       </div>
-      <p class="reveal mt-6 text-xs text-white/50 max-w-xl mx-auto">
-        [Pendiente de integración real] Los botones de donación se activarán cuando conectemos una pasarela segura
-        (Wompi para Colombia · PayPal internacional). El sitio nunca almacenará datos de tarjetas.
-      </p>
     </div>
   </section>
 
   <!-- ============ FOOTER ============ -->
-  <footer class="bg-[#12271D] text-white/70">
-    <div class="mx-auto max-w-7xl px-5 lg:px-8 py-14">
-      <div class="grid gap-10 lg:grid-cols-4">
-        <div class="lg:col-span-2">
-          <!-- ===== ESPACIO LOGO OFICIAL (FOOTER) =====
-               Ideal: versión CLARA/monocroma del logo para fondo verde oscuro,
-               guardada en: assets/logo/selva-futuro-blanco.png
-               Respaldo automático al símbolo marcador si no existe. -->
-          <div class="flex items-center gap-3">
-            <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-musgo overflow-hidden">
+  <footer class="footer">
+    <div class="container inner">
+      <div class="footer-grid">
+        <div>
+          <!-- ===== LOGO FOOTER ===== assets/logo/selva-futuro-blanco.png (versión clara) -->
+          <div class="footer-brand">
+            <span class="footer-mark">
               <img src="assets/logo/selva-futuro-blanco.png" alt="Logo Corporación Selva Futuro"
-                   class="h-10 w-10 object-contain"
                    onerror="this.style.display='none'; document.getElementById('logo-fallback-footer').style.display='block';" />
-              <svg id="logo-fallback-footer" viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17c4-1 6-5 9-9s6-4 9-4"/><path d="M16 4h5v5"/></svg>
+              <svg id="logo-fallback-footer" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 17c4-1 6-5 9-9s6-4 9-4"/><path d="M16 4h5v5"/></svg>
             </span>
-            <span class="font-serif text-lg text-white">Corporación Selva Futuro</span>
+            <span class="name">Corporación Selva Futuro</span>
           </div>
-          <p class="mt-4 max-w-md text-sm leading-relaxed">
+          <p class="desc">
             CORPOSELFUTURO · Entidad sin ánimo de lucro de utilidad común.<br />
-            <span class="font-serif italic text-white/80">« Por la vida en la selva, en comunidad y territorio. »</span>
+            <span class="slogan">« Por la vida en la selva, en comunidad y territorio. »</span>
           </p>
         </div>
         <div>
-          <h4 class="font-serif text-white">Navegación</h4>
-          <ul class="mt-4 space-y-2 text-sm">
-            <li><a href="#nosotros" class="hover:text-white">Nosotros</a></li>
-            <li><a href="#territorio" class="hover:text-white">Territorio</a></li>
-            <li><a href="#productivo" class="hover:text-white">Desarrollo productivo</a></li>
-            <li><a href="#jovenes" class="hover:text-white">Jóvenes rurales</a></li>
-            <li><a href="#donar" class="hover:text-white">Donar</a></li>
+          <h4>Navegación</h4>
+          <ul>
+            <li><a href="#nosotros">Nosotros</a></li>
+            <li><a href="#territorio">Territorio</a></li>
+            <li><a href="#productivo">Desarrollo productivo</a></li>
+            <li><a href="#jovenes">Jóvenes rurales</a></li>
+            <li><a href="#donar">Donar</a></li>
           </ul>
         </div>
         <div>
-          <h4 class="font-serif text-white">Contacto</h4>
-          <ul class="mt-4 space-y-2 text-sm">
+          <h4>Contacto</h4>
+          <ul>
             <li>coselfuturo26@gmail.com</li>
             <li>317 798 9684</li>
             <li>El Retorno, Guaviare</li>
@@ -548,11 +433,11 @@
           </ul>
         </div>
       </div>
-      <div class="mt-12 border-t border-white/10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/50">
+      <div class="footer-bottom">
         <p>© 2026 Corporación Selva Futuro (CORPOSELFUTURO). Todos los derechos reservados.</p>
-        <div class="flex gap-5">
-          <a href="#" class="hover:text-white">Política de privacidad</a>
-          <a href="#" class="hover:text-white">Tratamiento de datos</a>
+        <div class="links">
+          <a href="#">Política de privacidad</a>
+          <a href="#">Tratamiento de datos</a>
         </div>
       </div>
     </div>
@@ -561,23 +446,26 @@
   <script>
     // Header con fondo al hacer scroll
     const header = document.getElementById('header');
-    const brand = document.getElementById('brand-text');
     const onScroll = () => {
-      if (window.scrollY > 40) {
-        header.classList.add('bg-crema/95','backdrop-blur','shadow-sm');
-        header.querySelectorAll('.nav-link').forEach(n => n.classList.remove('text-white'));
-      } else {
-        header.classList.remove('bg-crema/95','backdrop-blur','shadow-sm');
-      }
+      if (window.scrollY > 40) header.classList.add('scrolled');
+      else header.classList.remove('scrolled');
     };
     window.addEventListener('scroll', onScroll); onScroll();
 
     // Menú móvil
-    document.getElementById('menu-btn').addEventListener('click', () => {
-      document.getElementById('mobile-menu').classList.toggle('hidden');
+    const menuBtn = document.getElementById('menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+    menuBtn.addEventListener('click', () => {
+      const open = mobileMenu.classList.toggle('open');
+      menuBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
+    // Cerrar el menú móvil al tocar un enlace
+    mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+      mobileMenu.classList.remove('open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    }));
 
-    // Reveal al hacer scroll
+    // Animaciones reveal al hacer scroll
     const io = new IntersectionObserver((entries) => {
       entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('is-visible'); io.unobserve(e.target); } });
     }, { threshold: 0.12 });
